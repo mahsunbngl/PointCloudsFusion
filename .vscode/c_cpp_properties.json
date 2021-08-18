@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/bingol/fev_ws/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/home/bingol/fev_ws/src/otomod_sim/include/**",
+                "/home/bingol/fev_ws/src/pointcloud_to_laserscan/include/**",
+                "/home/bingol/fev_ws/src/rosparam_pkg/include/**",
+                "/home/bingol/fev_ws/src/sv_msgs/include/**",
+                "/usr/include/**",
+                "/opt/ros/melodic/include",
+                "${workspaceFolder}/src/lidar_fusion/include",
+                "${workspaceFolder}/src/lidar_fusion/include",
+                "/usr/include/pcl-1.8",
+                "/usr/include/pcl-1.8",
+                "/usr/include/eigen3",
+                "/usr/include/eigen3"
+            ],
+            "name": "ROS"
+        }
+    ],
+    "version": 4
+}
