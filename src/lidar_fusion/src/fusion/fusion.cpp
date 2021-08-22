@@ -23,18 +23,21 @@ Fusion::Fusion (int argc , char **argv)
     n = new ros::NodeHandle("~");
 
 
-    std::string first_lidar_topic; 
-    std::string second_lidar_topic; 
+    std::string first_pc; 
+    std::string second_pc; 
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr first_cloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr second_cloud;
 
-    n->param <std::string> ("first_lidar_topic" , first_lidar_topic , "/transformed");
-    n->param <std::string> ("second_lidar_topic" , second_lidar_topic , "/velodyne_points2");
+    /*** Parameters ***/ 
+    n->param <std::string> ("first_pc" , first_pc , "/velodyne_points");
+    n->param <std::string> ("second_pc" , second_pc , "/transformed");
 
-    lidarSubscriber1 = n->subscribe(first_lidar_topic.c_str(), 10, &Fusion::first_pc_callback, this);
-    lidarSubscriber2 = n->subscribe(second_lidar_topic.c_str(), 10, &Fusion::second_pc_callback, this);
+    /*** Subscribers ***/
+    lidarSubscriber1 = n->subscribe(first_pc.c_str(), 10, &Fusion::first_pc_callback, this);
+    lidarSubscriber2 = n->subscribe(second_pc.c_str(), 10, &Fusion::second_pc_callback, this);
 
+    /*** Publishers ***/
     fusedPointCloud = n->advertise<sensor_msgs::PointCloud2> ("/fused", 10); 
 
 

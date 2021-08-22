@@ -214,6 +214,7 @@ include_directories(
 
 add_library(PointCloudFusionLibrary src/fusion/fusion.cpp)
 add_library(TransfromLibrary src/transform/transform_pointcloud.cpp)
+add_library(DetectionLibrary src/detection/detection.cpp)
 
 add_executable(fusion_main src/fusion/fusion_main.cpp)
 add_dependencies(fusion_main ${catkin_EXPORTED_TARGETS})
@@ -222,3 +223,7 @@ target_link_libraries(fusion_main PointCloudFusionLibrary ${catkin_LIBRARIES})
 add_executable(transform_pointcloud_main src/transform/transform_pointcloud_main.cpp)
 add_dependencies(transform_pointcloud_main ${catkin_EXPORTED_TARGETS})
 target_link_libraries(transform_pointcloud_main TransfromLibrary ${catkin_LIBRARIES})
+
+add_executable(detection_main src/detection/detection_main.cpp)
+add_dependencies(detection_main ${catkin_EXPORTED_TARGETS})
+target_link_libraries(detection_main DetectionLibrary ${catkin_LIBRARIES})

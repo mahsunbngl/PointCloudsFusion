@@ -27,17 +27,12 @@ class Detection
 
         std::string sensor_model;
 
-        bool print_fps;
         double z_axis_min;
         double z_axis_max;
         int cluster_size_min;
         int cluster_size_max;
 
         int regions[100];
-
-        int frames; 
-        clock_t start_time; 
-        bool reset = true;//fps
 
         float tolerance = 0.0;
 

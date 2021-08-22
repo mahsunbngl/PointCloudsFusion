@@ -29,10 +29,6 @@ class Fusion
         pcl::PointCloud<pcl::PointXYZ>::Ptr sensor2PCLConversion (const sensor_msgs::PointCloud2ConstPtr& );
         sensor_msgs::PointCloud2 fusionPointCLouds(const sensor_msgs::PointCloud2 &first, const sensor_msgs::PointCloud2 &second );
 
-        // --------------------------- Transfrom ------------------------------------------------
-        void transfrom (const sensor_msgs::PointCloud2ConstPtr& cloud_1 , const sensor_msgs::PointCloud2ConstPtr& cloud_2);
-
-
 };
 
 

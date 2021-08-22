@@ -26,7 +26,6 @@ Detection::Detection (int argc , char **argv)
 
   /*** Parameters ***/ 
   n->param<std::string>("sensor_model", sensor_model, "HDL-32E"); // VLP-16, HDL-32E, HDL-64E
-  n->param<bool>("print_fps", print_fps, false);
   n->param<double>("z_axis_min", z_axis_min, -0.75);
   n->param<double>("z_axis_max", z_axis_max, 5.0);
   n->param<int>("cluster_size_min", cluster_size_min, 20);
@@ -65,16 +64,6 @@ void Detection::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& ros
     ROS_FATAL("Unknown sensor model!");
   }
 
-
-  if(print_fps)
-  {
-    if(reset)
-    {
-      frames=0;
-      start_time=clock();
-      reset=false;
-    }
-  }
   
   /*** Convert ROS message to PCL ***/
   pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_pc_in(new pcl::PointCloud<pcl::PointXYZI>);
@@ -252,13 +241,6 @@ void Detection::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& ros
     marker_array_pub.publish(marker_array);
   }
 
-  if(print_fps)
-  {
-    if(++frames>10)
-    {
-      std::cerr<<"[adaptive_clustering] fps = "<<float(frames)/(float(clock()-start_time)/CLOCKS_PER_SEC)<<", timestamp = "<<clock()/CLOCKS_PER_SEC<<std::endl;reset = true;
-    }
-  }
 
 }
 

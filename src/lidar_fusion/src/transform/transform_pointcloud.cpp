@@ -35,18 +35,19 @@ Transform::Transform (int argc , char **argv)
     pcl::PointCloud<pcl::PointXYZ>::Ptr first_cloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr second_cloud;
 
-
+    /*** Parameters ***/ 
     n->param <std::string> ("first_lidar_topic" , first_lidar_topic , "/velodyne_points");
     n->param <std::string> ("second_lidar_topic" , second_lidar_topic , "/velodyne_points2");
-
     n->param <double>("lidar_pos_x", lidar_pos_x, 0.0);
     n->param <double>("lidar_pos_y", lidar_pos_y, 0.0);
-    n->param <double>("lidar_pos_z", lidar_pos_z, 0.2);
+    n->param <double>("lidar_pos_z", lidar_pos_z, -0.2);
     n->param <double>("lidar_rotation", lidar_rotation, 0.0);
 
+    /*** Subscribers ***/
     lidarSubscriber1 = n->subscribe(first_lidar_topic.c_str(), 10, &Transform::first_pc_callback, this);
     lidarSubscriber2 = n->subscribe(second_lidar_topic.c_str(), 10, &Transform::second_pc_callback, this);
 
+    /*** Publishers ***/
     transformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed", 10);
 
     ros::spin();    
@@ -72,7 +73,7 @@ void Transform::first_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudM
 
     std::cout << "firstcloudmsg.fields.size() = " << firstcloudmsg.fields.size() << "\n";
 
-    transform(cloudMsg , lidar_pos_x , lidar_pos_y, lidar_pos_z , lidar_rotation);
+    // transform(cloudMsg , lidar_pos_x , lidar_pos_y, lidar_pos_z , lidar_rotation);
 }
 
 void Transform::second_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
@@ -80,6 +81,8 @@ void Transform::second_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloud
     second_cloud = sensor2PCLConversion (cloudMsg);
 
     secondcloudmsg = *cloudMsg;
+
+    transform(cloudMsg , lidar_pos_x , lidar_pos_y, lidar_pos_z , lidar_rotation);
 
 }
 
@@ -114,7 +117,7 @@ void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , dou
     transform_1 (2,3) = lidar_pos_z;
 
     // Print the transformation
-    printf ("Method #1: using a Matrix4f\n");
+    std::cout << "Method #1: using a Matrix4f\n";
     std::cout << transform_1 << std::endl;
 
     /*  METHOD #2: Using a Affine3f
@@ -134,7 +137,7 @@ void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , dou
     // You can either apply transform_1 or transform_2; they are the same
     // pcl::transformPointCloud (*pc1, *transformed_cloud, transform_1, true);
 
-    pcl_ros::transformPointCloud(transform_1 , firstcloudmsg , transformedcloudmsg );
+    pcl_ros::transformPointCloud(transform_1 , *cloudMsg , transformedcloudmsg );
 
     transformedCloudPub.publish(transformedcloudmsg);
 }
