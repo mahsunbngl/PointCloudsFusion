@@ -1,0 +1,19 @@
+#transform_pointcloud
+first_lidar_topic: "/velodyne_points"
+second_lidar_topic: "/velodyne_points2"
+lidar_pos_x: 0.0
+lidar_pos_y: 0.0
+lidar_pos_z: -0.2
+lidar_rotation: 0.0  # <!-- In degrees -->
+
+#fusion
+first_pc: "/velodyne_points"
+second_pc: "/transformed"
+
+#detection
+sensor_model: "HDL-32E"
+z_axis_min: -0.75
+z_axis_max: 2
+cluster_size_min: 20
+cluster_size_max: 2200000
+lidar_topic: "/fused"
