@@ -25,30 +25,40 @@
 
 Transform::Transform (int argc , char **argv)
 {
-    ros::init(argc, argv , "Point_Cloud_Transfrom");
+    ros::init(argc, argv , "Point_Cloud_Transform");
     n = new ros::NodeHandle("~");
 
 
     std::string first_lidar_topic; 
     std::string second_lidar_topic; 
+    std::string third_lidar_topic;
+
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr first_cloud;
     pcl::PointCloud<pcl::PointXYZ>::Ptr second_cloud;
+    pcl::PointCloud<pcl::PointXYZ>::Ptr third_cloud;
+
 
     /*** Parameters ***/ 
-    n->param <std::string> ("first_lidar_topic" , first_lidar_topic , "/velodyne_points");
-    n->param <std::string> ("second_lidar_topic" , second_lidar_topic , "/velodyne_points2");
-    n->param <double>("lidar_pos_x", lidar_pos_x, 0.0);
-    n->param <double>("lidar_pos_y", lidar_pos_y, 0.0);
-    n->param <double>("lidar_pos_z", lidar_pos_z, -0.2);
-    n->param <double>("lidar_rotation", lidar_rotation, 0.0);
+    n->param <std::string> ("first_lidar_topic" , first_lidar_topic , "/carla/ego_vehicle/radar_left");
+    n->param <std::string> ("second_lidar_topic" , second_lidar_topic , "/carla/ego_vehicle/radar_rear");
+    n->param <std::string> ("third_lidar_topic" , third_lidar_topic , "/carla/ego_vehicle/radar_right");
+
+    // n->param <double>("lidar_pos_x", lidar_pos_x, 0.0);
+    // n->param <double>("lidar_pos_y", lidar_pos_y, 0.0);
+    // n->param <double>("lidar_pos_z", lidar_pos_z, -0.2);
+    // n->param <double>("lidar_rotation", lidar_rotation, 0.0);
 
     /*** Subscribers ***/
     lidarSubscriber1 = n->subscribe(first_lidar_topic.c_str(), 10, &Transform::first_pc_callback, this);
     lidarSubscriber2 = n->subscribe(second_lidar_topic.c_str(), 10, &Transform::second_pc_callback, this);
+    lidarSubscriber3 = n->subscribe(third_lidar_topic.c_str(), 10, &Transform::third_pc_callback, this);
+
 
     /*** Publishers ***/
-    transformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed", 10);
+    lefttransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/left", 10);
+    reartransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/rear", 10);
+    righttransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/right", 10);
 
     ros::spin();    
 }
@@ -71,9 +81,9 @@ void Transform::first_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudM
 
     firstcloudmsg = *cloudMsg;
 
-    std::cout << "firstcloudmsg.fields.size() = " << firstcloudmsg.fields.size() << "\n";
+    // std::cout << "firstcloudmsg.fields.size() = " << firstcloudmsg.fields.size() << "\n";
 
-    // transform(cloudMsg , lidar_pos_x , lidar_pos_y, lidar_pos_z , lidar_rotation);
+    transform(cloudMsg , 0 , 0, 0 , 0, lefttransformedcloudmsg);
 }
 
 void Transform::second_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
@@ -82,11 +92,21 @@ void Transform::second_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloud
 
     secondcloudmsg = *cloudMsg;
 
-    transform(cloudMsg , lidar_pos_x , lidar_pos_y, lidar_pos_z , lidar_rotation);
+    // transform(cloudMsg , 0 , 0, 0 , 180, reartransformedcloudmsg);
 
 }
 
-void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , double x , double y , double z , double rotation_angle)
+void Transform::third_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
+{
+    third_cloud = sensor2PCLConversion (cloudMsg);
+
+    thirdcloudmsg = *cloudMsg;
+
+    // transform(cloudMsg , 0 , 0, 0 , 270, righttransformedcloudmsg);
+
+}
+
+void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , double x , double y , double z , double rotation_angle, sensor_msgs::PointCloud2 transformedcloudmsg)
 {
 
     
@@ -104,7 +124,7 @@ void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , dou
     
 
     // Define a rotation matrix (see https://en.wikipedia.org/wiki/Rotation_matrix)
-    theta = (M_PI/180)*lidar_rotation; // The angle of rotation in degree
+    theta = (M_PI/180)*rotation_angle; // The angle of rotation in degree
     transform_1 (0,0) = std::cos (theta);
     transform_1 (0,1) = -sin(theta);
     transform_1 (1,0) = sin (theta);
@@ -112,9 +132,9 @@ void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , dou
     //    (row, column)
 
     // Define a translation
-    transform_1 (0,3) = lidar_pos_x;
-    transform_1 (1,3) = lidar_pos_y;
-    transform_1 (2,3) = lidar_pos_z;
+    transform_1 (0,3) = x;
+    transform_1 (1,3) = y;
+    transform_1 (2,3) = z;
 
     // Print the transformation
     std::cout << "Method #1: using a Matrix4f\n";
@@ -139,7 +159,7 @@ void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , dou
 
     pcl_ros::transformPointCloud(transform_1 , *cloudMsg , transformedcloudmsg );
 
-    transformedCloudPub.publish(transformedcloudmsg);
+    lefttransformedCloudPub.publish(transformedcloudmsg);
 }
 
 

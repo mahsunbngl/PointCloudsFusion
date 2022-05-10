@@ -25,12 +25,12 @@ Detection::Detection (int argc , char **argv)
   std::string lidar_topic; 
 
   /*** Parameters ***/ 
-  n->param<std::string>("sensor_model", sensor_model, "HDL-32E"); // VLP-16, HDL-32E, HDL-64E
-  n->param<double>("z_axis_min", z_axis_min, -0.75);
-  n->param<double>("z_axis_max", z_axis_max, 5.0);
-  n->param<int>("cluster_size_min", cluster_size_min, 20);
-  n->param<int>("cluster_size_max", cluster_size_max, 2200000);
-  n->param <std::string> ("lidar_topic" , lidar_topic , "/fused");
+  n->param<std::string>("sensor_model", sensor_model, "VLP-16"); // VLP-16, HDL-32E, HDL-64E
+  n->param<double>("z_axis_min", z_axis_min, 0);
+  n->param<double>("z_axis_max", z_axis_max, 0.5);
+  n->param<int>("cluster_size_min", cluster_size_min, 2);
+  n->param<int>("cluster_size_max", cluster_size_max, 20);
+  n->param <std::string> ("lidar_topic" , lidar_topic , "/carla/ego_vehicle/radar_front");
 
   
   /*** Subscribers ***/
@@ -51,9 +51,9 @@ void Detection::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& ros
   // Divide the point cloud into nested circular regions centred at the sensor.
   // For more details, see our IROS-17 paper "Online learning for human classification in 3D LiDAR-based tracking"
   if(sensor_model.compare("VLP-16") == 0) {
-    regions[0] = 2; regions[1] = 3; regions[2] = 3; regions[3] = 3; regions[4] = 3;
-    regions[5] = 3; regions[6] = 3; regions[7] = 2; regions[8] = 3; regions[9] = 3;
-    regions[10]= 3; regions[11]= 3; regions[12]= 3; regions[13]= 3;
+    regions[0] = 4; regions[1] = 6; regions[2] = 6; regions[3] = 6; regions[4] = 6;
+    regions[5] = 6; regions[6] = 6; regions[7] = 4; regions[8] = 6; regions[9] = 6;
+    regions[10]= 6; regions[11]= 6; regions[12]= 6; regions[13]= 6;
   } else if (sensor_model.compare("HDL-32E") == 0) {
     regions[0] = 4; regions[1] = 5; regions[2] = 4; regions[3] = 5; regions[4] = 4;
     regions[5] = 5; regions[6] = 5; regions[7] = 4; regions[8] = 5; regions[9] = 4;
@@ -103,7 +103,7 @@ void Detection::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& ros
   
   for(int i = 0; i < region_max; i++)
   {
-    tolerance += 0.1;
+    tolerance += 0.5;
     if(indices_array[i].size() > cluster_size_min) 
     {
       boost::shared_ptr<std::vector<int> > indices_array_ptr(new std::vector<int>(indices_array[i]));
@@ -218,7 +218,7 @@ void Detection::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& ros
   	    marker.points.push_back(p[i]);
       }
       
-      marker.scale.x = 0.06;
+      marker.scale.x = 0.5;
       marker.color.a = 1.0;
       marker.color.r = 0.0;
       marker.color.g = 1.0;

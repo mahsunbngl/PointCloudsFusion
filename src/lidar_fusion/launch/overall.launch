@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <launch>
 
-  <node pkg="lidar_fusion" type="transform_pointcloud_main" name="TransformLidars" output = "screen">
+  <!-- <node pkg="lidar_fusion" type="transform_pointcloud_main" name="TransformLidars">
     <rosparam command="load" file="$(find lidar_fusion)/config/parameters.yaml" />
   </node> 
 
   <node pkg="lidar_fusion" type="fusion_main" name="FusionLidars"> 
     <rosparam command="load" file="$(find lidar_fusion)/config/parameters.yaml" />
-   </node> 
+   </node>  -->
 
   <node pkg="lidar_fusion" type="detection_main" name="ObjectDetection"> 
     <rosparam command="load" file="$(find lidar_fusion)/config/parameters.yaml" />

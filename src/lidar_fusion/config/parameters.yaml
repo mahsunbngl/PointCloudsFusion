@@ -1,19 +1,23 @@
 #transform_pointcloud
-first_lidar_topic: "/velodyne_points"
-second_lidar_topic: "/velodyne_points2"
-lidar_pos_x: 0.0
-lidar_pos_y: 0.0
-lidar_pos_z: -0.2
-lidar_rotation: 0.0  # <!-- In degrees -->
+first_lidar_topic: "/carla/ego_vehicle/radar_left"
+second_lidar_topic: "/carla/ego_vehicle/radar_rear"
+third_lidar_topic: "/carla/ego_vehicle/radar_right"
+
+# lidar_pos_x: 0.0
+# lidar_pos_y: 0.0
+# lidar_pos_z: 0.0
+# lidar_rotation: 0.0  # <!-- In degrees -->
 
 #fusion
-first_pc: "/velodyne_points"
-second_pc: "/transformed"
+first_pc: "/carla/ego_vehicle/radar_front"
+second_pc: "/carla/ego_vehicle/radar_left"
+third_pc: "/carla/ego_vehicle/radar_rear"
+fourth_pc: "/carla/ego_vehicle/radar_right"
 
 #detection
-sensor_model: "HDL-32E"
-z_axis_min: -0.75
-z_axis_max: 2
-cluster_size_min: 20
-cluster_size_max: 2200000
-lidar_topic: "/fused"
+sensor_model: "VLP-16"
+z_axis_min: 0
+z_axis_max: 5
+cluster_size_min: 5
+cluster_size_max: 100
+lidar_topic: "/carla/ego_vehicle/radar_front"
