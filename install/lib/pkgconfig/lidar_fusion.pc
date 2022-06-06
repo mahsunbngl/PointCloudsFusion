@@ -1,0 +1,8 @@
+prefix=/home/mahsun/PointCloudsFusion/install
+
+Name: lidar_fusion
+Description: Description of lidar_fusion
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -llidar_fusion
+Requires: 

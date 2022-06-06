@@ -28,7 +28,7 @@ Detection::Detection (int argc , char **argv)
   n->param<std::string>("sensor_model", sensor_model, "VLP-16"); // VLP-16, HDL-32E, HDL-64E
   n->param<double>("z_axis_min", z_axis_min, 0);
   n->param<double>("z_axis_max", z_axis_max, 0.5);
-  n->param<int>("cluster_size_min", cluster_size_min, 2);
+  n->param<int>("cluster_size_min", cluster_size_min, 5);
   n->param<int>("cluster_size_max", cluster_size_max, 20);
   n->param <std::string> ("lidar_topic" , lidar_topic , "/carla/ego_vehicle/radar_front");
 
@@ -51,9 +51,11 @@ void Detection::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& ros
   // Divide the point cloud into nested circular regions centred at the sensor.
   // For more details, see our IROS-17 paper "Online learning for human classification in 3D LiDAR-based tracking"
   if(sensor_model.compare("VLP-16") == 0) {
-    regions[0] = 4; regions[1] = 6; regions[2] = 6; regions[3] = 6; regions[4] = 6;
-    regions[5] = 6; regions[6] = 6; regions[7] = 4; regions[8] = 6; regions[9] = 6;
-    regions[10]= 6; regions[11]= 6; regions[12]= 6; regions[13]= 6;
+    // regions[0] = 4; regions[1] = 6; regions[2] = 6; regions[3] = 6; regions[4] = 6;
+    // regions[5] = 6; regions[6] = 6; regions[7] = 6; regions[8] = 6; regions[9] = 6;
+    // regions[10]= 6; regions[11]= 6; regions[12]= 6; regions[13]= 6;
+    for (int i=0; i<14;++i)
+      regions[i] = 100;
   } else if (sensor_model.compare("HDL-32E") == 0) {
     regions[0] = 4; regions[1] = 5; regions[2] = 4; regions[3] = 5; regions[4] = 4;
     regions[5] = 5; regions[6] = 5; regions[7] = 4; regions[8] = 5; regions[9] = 4;

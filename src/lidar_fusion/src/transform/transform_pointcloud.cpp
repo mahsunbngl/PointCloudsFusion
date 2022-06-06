@@ -29,20 +29,23 @@ Transform::Transform (int argc , char **argv)
     n = new ros::NodeHandle("~");
 
 
-    std::string first_lidar_topic; 
-    std::string second_lidar_topic; 
-    std::string third_lidar_topic;
-
-
-    pcl::PointCloud<pcl::PointXYZ>::Ptr first_cloud;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr second_cloud;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr third_cloud;
+    std::string flr_topic; 
+    std::string frr_topic; 
+    std::string slr_topic;
+    std::string srr_topic;
+    std::string rcr_topic;
+    std::string rlr_topic;
+    std::string rrr_topic;
 
 
     /*** Parameters ***/ 
-    n->param <std::string> ("first_lidar_topic" , first_lidar_topic , "/carla/ego_vehicle/radar_left");
-    n->param <std::string> ("second_lidar_topic" , second_lidar_topic , "/carla/ego_vehicle/radar_rear");
-    n->param <std::string> ("third_lidar_topic" , third_lidar_topic , "/carla/ego_vehicle/radar_right");
+    n->param <std::string> ("flr_topic" , flr_topic , "/carla/ego_vehicle/FLR");
+    n->param <std::string> ("frr_topic" , frr_topic , "/carla/ego_vehicle/FRR");
+    n->param <std::string> ("slr_topic" , slr_topic , "/carla/ego_vehicle/SLR");
+    n->param <std::string> ("srr_topic" , srr_topic , "/carla/ego_vehicle/SRR");
+    n->param <std::string> ("rcr_topic" , rcr_topic , "/carla/ego_vehicle/RCR");
+    n->param <std::string> ("rlr_topic" , rlr_topic , "/carla/ego_vehicle/RLR");
+    n->param <std::string> ("rcr_topic" , rcr_topic , "/carla/ego_vehicle/RRR");
 
     // n->param <double>("lidar_pos_x", lidar_pos_x, 0.0);
     // n->param <double>("lidar_pos_y", lidar_pos_y, 0.0);
@@ -50,15 +53,24 @@ Transform::Transform (int argc , char **argv)
     // n->param <double>("lidar_rotation", lidar_rotation, 0.0);
 
     /*** Subscribers ***/
-    lidarSubscriber1 = n->subscribe(first_lidar_topic.c_str(), 10, &Transform::first_pc_callback, this);
-    lidarSubscriber2 = n->subscribe(second_lidar_topic.c_str(), 10, &Transform::second_pc_callback, this);
-    lidarSubscriber3 = n->subscribe(third_lidar_topic.c_str(), 10, &Transform::third_pc_callback, this);
+    lidarSubscriber1 = n->subscribe(flr_topic.c_str(), 10, &Transform::FLR_pc_callback, this);
+    lidarSubscriber2 = n->subscribe(frr_topic.c_str(), 10, &Transform::FRR_pc_callback, this);
+    lidarSubscriber3 = n->subscribe(slr_topic.c_str(), 10, &Transform::SLR_pc_callback, this);
+    lidarSubscriber4 = n->subscribe(srr_topic.c_str(), 10, &Transform::SRR_pc_callback, this);
+    lidarSubscriber5 = n->subscribe(rcr_topic.c_str(), 10, &Transform::RCR_pc_callback, this);
+    lidarSubscriber6 = n->subscribe(rlr_topic.c_str(), 10, &Transform::RLR_pc_callback, this);
+    lidarSubscriber7 = n->subscribe(rcr_topic.c_str(), 10, &Transform::RRR_pc_callback, this);
+
 
 
     /*** Publishers ***/
-    lefttransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/left", 10);
-    reartransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/rear", 10);
-    righttransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/right", 10);
+    FLRtransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed_FLR", 10);
+    FRRtransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed_FRR", 10);
+    SLRtransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed_SLR", 10);
+    SRRtransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed_SRR", 10);
+    RCRtransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed_RCR", 10);
+    RLRtransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed_RLR", 10);
+    RRRtransformedCloudPub = n->advertise<sensor_msgs::PointCloud2> ("/transformed_RRR", 10);
 
     ros::spin();    
 }
@@ -74,39 +86,48 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr Transform::sensor2PCLConversion (const senso
 }
 
 
-void Transform::first_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
+void Transform::FLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
 
-    first_cloud = sensor2PCLConversion (cloudMsg);
+    // first_cloud = sensor2PCLConversion (cloudMsg);
 
-    firstcloudmsg = *cloudMsg;
-
-    // std::cout << "firstcloudmsg.fields.size() = " << firstcloudmsg.fields.size() << "\n";
-
-    transform(cloudMsg , 0 , 0, 0 , 0, lefttransformedcloudmsg);
+    transform(cloudMsg , 0 , 0, 0 , 0, FLRtransformedcloudmsg, FLRtransformedCloudPub);
 }
 
-void Transform::second_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
+void Transform::FRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
-    second_cloud = sensor2PCLConversion (cloudMsg);
 
-    secondcloudmsg = *cloudMsg;
-
-    // transform(cloudMsg , 0 , 0, 0 , 180, reartransformedcloudmsg);
-
+    transform(cloudMsg , 0 , 0, 0 , 0, FRRtransformedcloudmsg, FRRtransformedCloudPub);
 }
 
-void Transform::third_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
+void Transform::SLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
-    third_cloud = sensor2PCLConversion (cloudMsg);
+   
+    transform(cloudMsg , 0 , 0, 0, 0, SLRtransformedcloudmsg, SLRtransformedCloudPub);
+}
+void Transform::SRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
+{
+    transform(cloudMsg , 0 , 0, 0 , 0, SRRtransformedcloudmsg, SRRtransformedCloudPub);
 
-    thirdcloudmsg = *cloudMsg;
+}
+void Transform::RCR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
+{
+    transform(cloudMsg , 0 , 0, 0 , 0, RCRtransformedcloudmsg, RCRtransformedCloudPub);
 
-    // transform(cloudMsg , 0 , 0, 0 , 270, righttransformedcloudmsg);
+}
+void Transform::RLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
+{
+    transform(cloudMsg , 0 , 0, 0 , 0, RLRtransformedcloudmsg, RLRtransformedCloudPub);
+
+}
+void Transform::RRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
+{
+    transform(cloudMsg , 0 , 0, 0 , 0, RRRtransformedcloudmsg, RRRtransformedCloudPub);
 
 }
 
-void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , double x , double y , double z , double rotation_angle, sensor_msgs::PointCloud2 transformedcloudmsg)
+void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , double x , double y , double z , 
+                            double rotation_angle, sensor_msgs::PointCloud2 transformedcloudmsg, ros::Publisher radar_transformed_pub)
 {
 
     
@@ -159,7 +180,7 @@ void Transform::transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg , dou
 
     pcl_ros::transformPointCloud(transform_1 , *cloudMsg , transformedcloudmsg );
 
-    lefttransformedCloudPub.publish(transformedcloudmsg);
+    radar_transformed_pub.publish(transformedcloudmsg);
 }
 
 

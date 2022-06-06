@@ -1,0 +1,8 @@
+prefix=/home/mahsun/PointCloudsFusion/install
+
+Name: adaptive_clustering
+Description: Description of adaptive_clustering
+Version: 0.0.1
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: 

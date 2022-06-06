@@ -13,21 +13,27 @@ class Transform
         ros::Subscriber lidarSubscriber1;  
         ros::Subscriber lidarSubscriber2;   
         ros::Subscriber lidarSubscriber3; 
+        ros::Subscriber lidarSubscriber4; 
+        ros::Subscriber lidarSubscriber5; 
+        ros::Subscriber lidarSubscriber6; 
+        ros::Subscriber lidarSubscriber7; 
 
 
-        ros::Publisher lefttransformedCloudPub; 
-        ros::Publisher reartransformedCloudPub;
-        ros::Publisher righttransformedCloudPub;
-        
+        ros::Publisher FLRtransformedCloudPub; 
+        ros::Publisher FRRtransformedCloudPub;
+        ros::Publisher SLRtransformedCloudPub;
+        ros::Publisher SRRtransformedCloudPub;
+        ros::Publisher RCRtransformedCloudPub;
+        ros::Publisher RLRtransformedCloudPub;
+        ros::Publisher RRRtransformedCloudPub;
 
-        sensor_msgs::PointCloud2 lefttransformedcloudmsg;
-        sensor_msgs::PointCloud2 reartransformedcloudmsg;
-        sensor_msgs::PointCloud2 righttransformedcloudmsg;
-
-
-        sensor_msgs::PointCloud2 firstcloudmsg;
-        sensor_msgs::PointCloud2 secondcloudmsg;
-        sensor_msgs::PointCloud2 thirdcloudmsg;
+        sensor_msgs::PointCloud2 FLRtransformedcloudmsg;
+        sensor_msgs::PointCloud2 FRRtransformedcloudmsg;
+        sensor_msgs::PointCloud2 SLRtransformedcloudmsg;
+        sensor_msgs::PointCloud2 SRRtransformedcloudmsg;
+        sensor_msgs::PointCloud2 RCRtransformedcloudmsg;
+        sensor_msgs::PointCloud2 RLRtransformedcloudmsg;
+        sensor_msgs::PointCloud2 RRRtransformedcloudmsg;
 
 
         pcl::PointCloud<pcl::PointXYZ>::Ptr first_cloud;
@@ -52,13 +58,17 @@ class Transform
     public:
         Transform (int argc , char **argv);
         
-        void first_pc_callback(const sensor_msgs::PointCloud2ConstPtr& );
-        void second_pc_callback(const sensor_msgs::PointCloud2ConstPtr&);
-        void third_pc_callback(const sensor_msgs::PointCloud2ConstPtr&);
+        void FLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& );
+        void FRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr&);
+        void SLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr&);
+        void SRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr&);
+        void RCR_pc_callback(const sensor_msgs::PointCloud2ConstPtr&);
+        void RLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr&);
+        void RRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr&);
 
         pcl::PointCloud<pcl::PointXYZ>::Ptr sensor2PCLConversion (const sensor_msgs::PointCloud2ConstPtr& );
 
-        void transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg ,double , double , double ,double, sensor_msgs::PointCloud2);
+        void transform(const sensor_msgs::PointCloud2ConstPtr& cloudMsg ,double , double , double ,double, sensor_msgs::PointCloud2,ros::Publisher);
 
 
 
