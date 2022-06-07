@@ -76,7 +76,7 @@ void Fusion::flr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
     // flr_cloud_pc = sensor2PCLConversion (cloudMsg);
 
     flr_cloud = *cloudMsg;
-    fused_cloud = fusionPointCLouds (flr_cloud,fcr_cloud);
+    fused_cloud = fusionPointCLouds (fcr_cloud,flr_cloud);
   
 }
 
@@ -88,6 +88,7 @@ void Fusion::frr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
     frr_cloud = *cloudMsg;
 
     fused_cloud = fusionPointCLouds (fused_cloud , frr_cloud);
+
 }
 
 
@@ -98,7 +99,7 @@ void Fusion::slr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 
     slr_cloud = *cloudMsg;
 
-    // fused_cloud = fusionPointCLouds (fused_cloud , slr_cloud);
+    fused_cloud = fusionPointCLouds (fused_cloud , slr_cloud);
 }
 void Fusion::srr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
@@ -107,7 +108,7 @@ void Fusion::srr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 
     srr_cloud = *cloudMsg;
 
-    // fused_cloud = fusionPointCLouds (slr_cloud , srr_cloud);
+    fused_cloud = fusionPointCLouds (fused_cloud , srr_cloud);
 }
 
 void Fusion::rcr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
@@ -117,7 +118,7 @@ void Fusion::rcr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 
     rcr_cloud = *cloudMsg;
 
-    // fused_cloud = fusionPointCLouds (fused_cloud , rcr_cloud);
+    fused_cloud = fusionPointCLouds (fused_cloud , rcr_cloud);
 }
 
 void Fusion::rlr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
@@ -127,7 +128,7 @@ void Fusion::rlr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 
     rlr_cloud = *cloudMsg;
 
-    // fused_cloud = fusionPointCLouds (fused_cloud , rlr_cloud);
+    fused_cloud = fusionPointCLouds (fused_cloud , rlr_cloud);
 }
 
 void Fusion::rrr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
@@ -143,7 +144,7 @@ void Fusion::rrr_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 
 sensor_msgs::PointCloud2 Fusion::fusionPointCLouds(const sensor_msgs::PointCloud2& first, const sensor_msgs::PointCloud2 &second )
 {
-    sensor_msgs::PointCloud2 result;
+    
 
 
     pcl::concatenatePointCloud(first , second , result);

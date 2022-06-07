@@ -31,6 +31,8 @@ class Fusion
         sensor_msgs::PointCloud2 rrr_cloud;
         sensor_msgs::PointCloud2 fused_cloud;
 
+        sensor_msgs::PointCloud2 result;
+
         std::string fcr_pc; 
         std::string flr_pc; 
         std::string frr_pc; 

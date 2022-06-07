@@ -13,21 +13,24 @@ rrr_topic: "/carla/ego_vehicle/RRR"
 # lidar_rotation: 0.0  # <!-- In degrees -->
 
 #fusion
+# fcr_pc: "/carla/ego_vehicle/FCR"
+# flr_pc: "/carla/ego_vehicle/FLR"
+# frr_pc: "/carla/ego_vehicle/FRR"
+# slr_pc: "/carla/ego_vehicle/SLR"
+# srr_pc: "/carla/ego_vehicle/SRR"
+# rcr_pc: "/carla/ego_vehicle/RCR"
+# rlr_pc: "/carla/ego_vehicle/RLR"
+# rrr_pc: "/carla/ego_vehicle/RRR"
+
+
 fcr_pc: "/carla/ego_vehicle/FCR"
-flr_pc: "/carla/ego_vehicle/FLR"
-frr_pc: "/carla/ego_vehicle/FRR"
-slr_pc: "/carla/ego_vehicle/SLR"
-srr_pc: "/carla/ego_vehicle/SRR"
-rcr_pc: "/carla/ego_vehicle/RCR"
-rlr_pc: "/carla/ego_vehicle/RLR"
-rrr_pc: "/carla/ego_vehicle/RRR"
-# flr_pc: "/transformed_FLR"
-# frr_pc: "/transformed_FRR"
-# slr_pc: "/transformed_SLR"
-# srr_pc: "/transformed_SRR"
-# rcr_pc: "/transformed_RCR"
-# rlr_pc: "/transformed_RLR"
-# rrr_pc: "/transformed_RRR"
+flr_pc: "/transformed_FLR"
+frr_pc: "/transformed_FRR"
+slr_pc: "/transformed_SLR"
+srr_pc: "/transformed_SRR"
+rcr_pc: "/transformed_RCR"
+rlr_pc: "/transformed_RLR"
+rrr_pc: "/transformed_RRR"
 
 #detection
 sensor_model: "VLP-16"
@@ -35,4 +38,4 @@ z_axis_min: 0
 z_axis_max: 5
 cluster_size_min: 5
 cluster_size_max: 50
-lidar_topic: "/carla/ego_vehicle/FCR"
+lidar_topic: "/fused"

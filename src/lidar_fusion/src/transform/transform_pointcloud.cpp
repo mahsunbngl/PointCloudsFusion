@@ -91,38 +91,38 @@ void Transform::FLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg
 
     // first_cloud = sensor2PCLConversion (cloudMsg);
 
-    transform(cloudMsg , 0 , 0, 0 , 0, FLRtransformedcloudmsg, FLRtransformedCloudPub);
+    transform(cloudMsg , 1.96, 0.55, 0.5 , 20.6264, FLRtransformedcloudmsg, FLRtransformedCloudPub);
 }
 
 void Transform::FRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
 
-    transform(cloudMsg , 0 , 0, 0 , 0, FRRtransformedcloudmsg, FRRtransformedCloudPub);
+    transform(cloudMsg , 1.96 , -0.55, 0.5 , -18.7930, FRRtransformedcloudmsg, FRRtransformedCloudPub);
 }
 
 void Transform::SLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
    
-    transform(cloudMsg , 0 , 0, 0, 0, SLRtransformedcloudmsg, SLRtransformedCloudPub);
+    transform(cloudMsg , 0.5 , 0.3, 0.5, 120.0002, SLRtransformedcloudmsg, SLRtransformedCloudPub);
 }
 void Transform::SRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
-    transform(cloudMsg , 0 , 0, 0 , 0, SRRtransformedcloudmsg, SRRtransformedCloudPub);
+    transform(cloudMsg , 0.5 , -0.65, 0.5 , -120.0002, SRRtransformedcloudmsg, SRRtransformedCloudPub);
 
 }
 void Transform::RCR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
-    transform(cloudMsg , 0 , 0, 0 , 0, RCRtransformedcloudmsg, RCRtransformedCloudPub);
+    transform(cloudMsg , -2 , -0.3, 0.5 , -188.5947, RCRtransformedcloudmsg, RCRtransformedCloudPub);
 
 }
 void Transform::RLR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
-    transform(cloudMsg , 0 , 0, 0 , 0, RLRtransformedcloudmsg, RLRtransformedCloudPub);
+    transform(cloudMsg , -2 , 0.65, 0.5 , 179.3357, RLRtransformedcloudmsg, RLRtransformedCloudPub);
 
 }
 void Transform::RRR_pc_callback(const sensor_msgs::PointCloud2ConstPtr& cloudMsg)
 {
-    transform(cloudMsg , 0 , 0, 0 , 0, RRRtransformedcloudmsg, RRRtransformedCloudPub);
+    transform(cloudMsg , -2 , -0.65, 0.5 , -174.7521, RRRtransformedcloudmsg, RRRtransformedCloudPub);
 
 }
 

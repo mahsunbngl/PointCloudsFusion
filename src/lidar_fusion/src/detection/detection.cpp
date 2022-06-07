@@ -55,7 +55,7 @@ void Detection::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& ros
     // regions[5] = 6; regions[6] = 6; regions[7] = 6; regions[8] = 6; regions[9] = 6;
     // regions[10]= 6; regions[11]= 6; regions[12]= 6; regions[13]= 6;
     for (int i=0; i<14;++i)
-      regions[i] = 100;
+      regions[i] = 15;
   } else if (sensor_model.compare("HDL-32E") == 0) {
     regions[0] = 4; regions[1] = 5; regions[2] = 4; regions[3] = 5; regions[4] = 4;
     regions[5] = 5; regions[6] = 5; regions[7] = 4; regions[8] = 5; regions[9] = 4;
@@ -225,7 +225,7 @@ void Detection::pointCloudCallback(const sensor_msgs::PointCloud2::ConstPtr& ros
       marker.color.r = 0.0;
       marker.color.g = 1.0;
       marker.color.b = 0.5;
-      marker.lifetime = ros::Duration(0.1);
+      // marker.lifetime = ros::Duration(0.1);
       marker_array.markers.push_back(marker);
 
     }
