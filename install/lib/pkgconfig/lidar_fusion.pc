@@ -1,4 +1,4 @@
-prefix=/home/mahsun/PointCloudsFusion/install
+prefix=/home/vtd/PointCloudsFusion/install
 
 Name: lidar_fusion
 Description: Description of lidar_fusion

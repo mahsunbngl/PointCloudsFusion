@@ -67,14 +67,14 @@ set(velodyne_gazebo_plugins_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(velodyne_gazebo_plugins_SOURCE_PREFIX /home/mahsun/PointCloudsFusion/src/velodyne_simulator/velodyne_gazebo_plugins)
-  set(velodyne_gazebo_plugins_DEVEL_PREFIX /home/mahsun/PointCloudsFusion/devel)
+  set(velodyne_gazebo_plugins_SOURCE_PREFIX /home/vtd/PointCloudsFusion/src/velodyne_simulator/velodyne_gazebo_plugins)
+  set(velodyne_gazebo_plugins_DEVEL_PREFIX /home/vtd/PointCloudsFusion/devel)
   set(velodyne_gazebo_plugins_INSTALL_PREFIX "")
   set(velodyne_gazebo_plugins_PREFIX ${velodyne_gazebo_plugins_DEVEL_PREFIX})
 else()
   set(velodyne_gazebo_plugins_SOURCE_PREFIX "")
   set(velodyne_gazebo_plugins_DEVEL_PREFIX "")
-  set(velodyne_gazebo_plugins_INSTALL_PREFIX /home/mahsun/PointCloudsFusion/install)
+  set(velodyne_gazebo_plugins_INSTALL_PREFIX /home/vtd/PointCloudsFusion/install)
   set(velodyne_gazebo_plugins_PREFIX ${velodyne_gazebo_plugins_INSTALL_PREFIX})
 endif()
 
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(velodyne_gazebo_plugins_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "include;/usr/include;/usr/include/gazebo-11;/usr/include/bullet;/usr/include/simbody;/usr/include/sdformat-9.7;/usr/include/ignition/math6;/usr/include/OGRE;/usr/include/OGRE/Terrain;/usr/include/OGRE/Paging;/usr/include/ignition/transport8;/usr/include/ignition/msgs5;/usr/include/ignition/common3;/usr/include/ignition/fuel_tools4 " STREQUAL " ")
+if(NOT "include;/usr/include;/usr/include/gazebo-9;/usr/include/bullet;/usr/include/simbody;/usr/include/sdformat-6.0;/usr/include/ignition/math4;/usr/include/OGRE;/usr/include/OGRE/Terrain;/usr/include/OGRE/Paging;/usr/include/ignition/transport4;/usr/include/ignition/msgs1;/usr/include/ignition/common1;/usr/include/ignition/fuel_tools1 " STREQUAL " ")
   set(velodyne_gazebo_plugins_INCLUDE_DIRS "")
-  set(_include_dirs "include;/usr/include;/usr/include/gazebo-11;/usr/include/bullet;/usr/include/simbody;/usr/include/sdformat-9.7;/usr/include/ignition/math6;/usr/include/OGRE;/usr/include/OGRE/Terrain;/usr/include/OGRE/Paging;/usr/include/ignition/transport8;/usr/include/ignition/msgs5;/usr/include/ignition/common3;/usr/include/ignition/fuel_tools4")
+  set(_include_dirs "include;/usr/include;/usr/include/gazebo-9;/usr/include/bullet;/usr/include/simbody;/usr/include/sdformat-6.0;/usr/include/ignition/math4;/usr/include/OGRE;/usr/include/OGRE/Terrain;/usr/include/OGRE/Paging;/usr/include/ignition/transport4;/usr/include/ignition/msgs1;/usr/include/ignition/common1;/usr/include/ignition/fuel_tools1")
   if(NOT "https://bitbucket.org/dataspeedinc/velodyne_simulator/issues " STREQUAL " ")
     set(_report "Check the issue tracker 'https://bitbucket.org/dataspeedinc/velodyne_simulator/issues' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT "http://wiki.ros.org/velodyne_gazebo_plugins " STREQUAL " ")
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mahsun/PointCloudsFusion/install/lib;/opt/ros/noetic/lib)
+    foreach(path /home/vtd/PointCloudsFusion/install/lib;/home/vtd/PointCloudsFusion/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(velodyne_gazebo_plugins_LIBRARIES ${velodyne_gazebo_plugins_LIBRARIES})
 
   _list_append_unique(velodyne_gazebo_plugins_LIBRARY_DIRS ${${velodyne_gazebo_plugins_dep}_LIBRARY_DIRS})
-  _list_append_deduplicate(velodyne_gazebo_plugins_EXPORTED_TARGETS ${${velodyne_gazebo_plugins_dep}_EXPORTED_TARGETS})
+  list(APPEND velodyne_gazebo_plugins_EXPORTED_TARGETS ${${velodyne_gazebo_plugins_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "")

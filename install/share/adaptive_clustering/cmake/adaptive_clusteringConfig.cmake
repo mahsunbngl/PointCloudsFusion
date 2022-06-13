@@ -67,14 +67,14 @@ set(adaptive_clustering_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(adaptive_clustering_SOURCE_PREFIX /home/mahsun/PointCloudsFusion/src/adaptive_clustering)
-  set(adaptive_clustering_DEVEL_PREFIX /home/mahsun/PointCloudsFusion/devel)
+  set(adaptive_clustering_SOURCE_PREFIX /home/vtd/PointCloudsFusion/src/adaptive_clustering)
+  set(adaptive_clustering_DEVEL_PREFIX /home/vtd/PointCloudsFusion/devel)
   set(adaptive_clustering_INSTALL_PREFIX "")
   set(adaptive_clustering_PREFIX ${adaptive_clustering_DEVEL_PREFIX})
 else()
   set(adaptive_clustering_SOURCE_PREFIX "")
   set(adaptive_clustering_DEVEL_PREFIX "")
-  set(adaptive_clustering_INSTALL_PREFIX /home/mahsun/PointCloudsFusion/install)
+  set(adaptive_clustering_INSTALL_PREFIX /home/vtd/PointCloudsFusion/install)
   set(adaptive_clustering_PREFIX ${adaptive_clustering_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mahsun/PointCloudsFusion/install/lib;/opt/ros/noetic/lib)
+    foreach(path /home/vtd/PointCloudsFusion/install/lib;/home/vtd/PointCloudsFusion/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -211,7 +211,7 @@ foreach(depend ${depends})
   _unpack_libraries_with_build_configuration(adaptive_clustering_LIBRARIES ${adaptive_clustering_LIBRARIES})
 
   _list_append_unique(adaptive_clustering_LIBRARY_DIRS ${${adaptive_clustering_dep}_LIBRARY_DIRS})
-  _list_append_deduplicate(adaptive_clustering_EXPORTED_TARGETS ${${adaptive_clustering_dep}_EXPORTED_TARGETS})
+  list(APPEND adaptive_clustering_EXPORTED_TARGETS ${${adaptive_clustering_dep}_EXPORTED_TARGETS})
 endforeach()
 
 set(pkg_cfg_extras "adaptive_clustering-msg-extras.cmake")

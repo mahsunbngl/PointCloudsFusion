@@ -95,16 +95,6 @@ namespace message_traits
 
 
 template <class ContainerAllocator>
-struct IsMessage< ::adaptive_clustering::ClusterArray_<ContainerAllocator> >
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
-struct IsMessage< ::adaptive_clustering::ClusterArray_<ContainerAllocator> const>
-  : TrueType
-  { };
-
-template <class ContainerAllocator>
 struct IsFixedSize< ::adaptive_clustering::ClusterArray_<ContainerAllocator> >
   : FalseType
   { };
@@ -112,6 +102,16 @@ struct IsFixedSize< ::adaptive_clustering::ClusterArray_<ContainerAllocator> >
 template <class ContainerAllocator>
 struct IsFixedSize< ::adaptive_clustering::ClusterArray_<ContainerAllocator> const>
   : FalseType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::adaptive_clustering::ClusterArray_<ContainerAllocator> >
+  : TrueType
+  { };
+
+template <class ContainerAllocator>
+struct IsMessage< ::adaptive_clustering::ClusterArray_<ContainerAllocator> const>
+  : TrueType
   { };
 
 template <class ContainerAllocator>

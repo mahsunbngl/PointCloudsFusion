@@ -1,4 +1,4 @@
-prefix=/home/mahsun/PointCloudsFusion/install
+prefix=/home/vtd/PointCloudsFusion/install
 
 Name: velodyne_description
 Description: Description of velodyne_description

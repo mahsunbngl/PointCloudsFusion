@@ -24,7 +24,7 @@
   (:init
    (&key
     ((:header __header) (instance std_msgs::Header :init))
-    ((:clusters __clusters) ())
+    ((:clusters __clusters) (let (r) (dotimes (i 0) (push (instance sensor_msgs::PointCloud2 :init) r)) r))
     )
    (send-super :init)
    (setq _header __header)

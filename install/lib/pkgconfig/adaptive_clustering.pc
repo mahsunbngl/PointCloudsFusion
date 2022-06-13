@@ -1,4 +1,4 @@
-prefix=/home/mahsun/PointCloudsFusion/install
+prefix=/home/vtd/PointCloudsFusion/install
 
 Name: adaptive_clustering
 Description: Description of adaptive_clustering
